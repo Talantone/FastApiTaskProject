@@ -1,11 +1,12 @@
 from fastapi import APIRouter, HTTPException, Depends
+from fastapi.security import OAuth2PasswordBearer
 from fastapi_jwt_auth import AuthJWT
-
 from core.config import SALT
 from models.tokens import AccessToken, RefreshToken
 from models.user import User, UserAuth
 from core.security import hash_password, validate_password
 
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 router = APIRouter(prefix="/auth", tags=["Auth"])
 
 

@@ -23,8 +23,18 @@ async def user_registration(user_auth: UserAuth):
 async def forgot_password(email: EmailStr = Body(..., embed=True), auth: AuthJWT = Depends()):
     """Sends password reset email"""
     user = await User.by_email(email)
-    if user.email_confirmed_at is not None:
-        raise HTTPException(400, "Email is already verified")
+    #if user.email_confirmed_at is not None:
+        #raise HTTPException(400, "Email is already verified")
     token = auth.create_access_token(user.email)
     await send_password_reset_email(email, token)
+    return Response(status_code=200)
+
+
+@router.post("/reset-password/{token}")
+async def reset_password(token: str, pw: str, auth: AuthJWT = Depends()):
+    """Updates users password with token"""
+    auth._token = token
+    user = await User.by_email(auth.get_jwt_subject())
+    user.password = hash_password(pw, SALT)
+    await user.save()
     return Response(status_code=200)
