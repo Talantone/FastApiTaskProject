@@ -6,7 +6,6 @@ from models.tokens import AccessToken, RefreshToken
 from models.user import User, UserAuth
 from core.security import hash_password, validate_password
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 router = APIRouter(prefix="/auth", tags=["Auth"])
 
 
