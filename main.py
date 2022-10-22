@@ -7,6 +7,7 @@ from routes.auth import router as AuthRouter
 from routes.email import router as MailRouter
 from routes.register import router as RegisterRouter
 from routes.user import router as UserRouter
+from routes.tasks import router as TaskRouter
 
 
 app = FastAPI(title='taskManagement')
@@ -14,7 +15,7 @@ app.include_router(AuthRouter)
 app.include_router(MailRouter)
 app.include_router(RegisterRouter)
 app.include_router(UserRouter)
-
+app.include_router(TaskRouter)
 
 @app.on_event("startup")
 async def startup():
