@@ -29,8 +29,7 @@ async def request_verification_email(
 @router.post("/verify/{token}")
 async def verify_email(token: str, auth: AuthJWT = Depends()):
     """Verify the user's email with the supplied token"""
-    # Manually assign the token value
-    auth._token = token  # pylint: disable=protected-access
+    auth._token = token
     user = await User.by_email(auth.get_jwt_subject())
     if user.email_confirmed_at is not None:
         raise HTTPException(400, "Email is already verified")
